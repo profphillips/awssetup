@@ -1,9 +1,9 @@
 #!/bin/bash
 echo '-----------------------------------------------------------------------------------------------'
-echo '---- UPDATING THE SYSTEM FOR AWS EC2 MULTIUSER STUDENT DEVELOPER UBUNTU 16.04 GUI SERVER'
+echo '---- UPDATING THE SYSTEM FOR AWS EC2 MULTIUSER STUDENT DEVELOPER UBUNTU 16.04 XRDP GUI SERVER'
 echo '---- This is the second part of the setup script and deals with adding an xrdp Mate GUI.'
-echo '---- chmod 700 awscreategui.sh and run as root.'
-echo '---- version 20160820'
+echo '---- chmod 700 d2setup.sh and run as root.'
+echo '---- version 20160821'
 echo '-----------------------------------------------------------------------------------------------'
 
 echo 'Starting shell script at:'
@@ -166,7 +166,9 @@ echo '--------------------------------------------------------------------------
 echo '--'
 echo 'Reboot from AWS control panel.'
 echo 'Use Windows/Mac Remote Desktop to connect to GUI server as user river / mucis.'
-echo 'Finish setup as described in notes above.'
+echo 'Make sure your AWS firewall only allows your computers ip addresses for SSH and RDP.'
+echo 'You can allow everyone access to port 80 (http) for the Apache2 web server.'
+echo 'You can allow everyone access to port 8080(tcp) for the Tomcat Java server if used.'
 echo 'Ending shell script at:'
 date
 

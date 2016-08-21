@@ -5,22 +5,26 @@ echo '---- version 20160820'
 echo '-----------------------------------------------------------------------------------------------'
 
 # This script installs various programming languages, servers, and utilities.
-# Creates a console only version of the server.
+# It creates a console only version of the server.
 # If you want an xrdp GUI server then run this script followed by the GUI script.
-# I run this as root: $ sudo su -
-# Copy from GitHub raw and paste into vim (i (insert mode) and then right click if using Putty to paste)
-# chmod 700 awscreate.sh
-# ./awscreate.sh
-# takes 3 to 5 minutes to run
+
+# I run this as root: 
+#   $ sudo su -
+#   # vim d1setup.sh
+#   Copy from GitHub raw and paste into vim (i (insert mode) and then right click if using Putty to paste)
+#   # chmod 700 d1setup.sh
+#   # ./d1setup.sh
+
+# It takes a few minutes to run...
 
 echo 'Starting shell script at:'
 date
 whoami
 pwd
 
-# The following line is needed in order to do an oracle java install
-# it must go before an update command. 
-# However, the openjdk seems to be working for JavaFX and so I will comment this out.
+# The following line is needed in order to do an oracle java jdk install and
+# it must go before an update command, hence this location. 
+# However, the openjdk version seems to be working ok and so I will comment this out for now.
 #add-apt-repository ppa:webupd8team/java -y
 
 echo '-----------------------------------------------------------------------------------------------'
