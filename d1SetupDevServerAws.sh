@@ -54,14 +54,16 @@ javac -version
 java -version
 
 echo '---- INSTALLING JAVA/MYSQL JDBC DRIVER'
-apt-get -qq install libmysql-java
+apt-get -qq install -y libmysql-java
 echo 'CLASSPATH=.:/usr/share/java/mysql-connector-java.jar' >> /etc/environment
 
-echo '----PERL IS PREINSTALLED'
+echo '----PERL IS PREINSTALLED / INSTALL MYSQL DRIVER'
 perl --version
+apt-get -qq install -y libdbi-perl
 
-echo '---- PYTHON AND PYTHON3 ARE PREINSTALLED'
+echo '---- PYTHON AND PYTHON3 ARE PREINSTALLED / INSTALL MYSQL DRIVER'
 python3 --version
+apt-get -qq install -y python3-mysqldb
 
 echo '---- RUBY IS PREINSTALLED ON VAGRANT BUT NOT ON AWS'
 apt-get -qq install -y ruby
@@ -167,7 +169,7 @@ echo '--------------------------------------------------------------------------
 
 echo '---- CONFIGURE SKEL WITH TEST FILES FOR ALL USERS'
 mkdir /etc/skel/public_html
-mkdir /etc/skel/public_html/pub2206
+mkdir /etc/skel/public_html/pub1000
 mkdir /etc/skel/public_html/test
 
 echo "<html><body>Hello from HTML</body></html>" > /etc/skel/public_html/test/htmltest.html
