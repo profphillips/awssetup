@@ -1,7 +1,7 @@
 #!/bin/bash
 echo '-----------------------------------------------------------------------------------------------'
 echo '---- UPDATING THE SYSTEM FOR AWS EC2 MULTIUSER STUDENT DEVELOPER UBUNTU 16.04 SERVER'
-echo '---- version 20160820'
+echo '---- version 20160904'
 echo '-----------------------------------------------------------------------------------------------'
 
 # This script installs various programming languages, servers, and utilities.
