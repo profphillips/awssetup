@@ -1,19 +1,23 @@
 #!/bin/bash
 echo '-----------------------------------------------------------------------------------------------'
 echo '---- UPDATING THE SYSTEM FOR AWS EC2 MULTIUSER STUDENT DEVELOPER UBUNTU 16.04 SERVER'
-echo '---- version 20160904'
+echo '---- version 20160904 updated 20170321'
 echo '-----------------------------------------------------------------------------------------------'
 
 # This script installs various programming languages, servers, and utilities.
 # It creates a console only version of the server.
 # If you want an xrdp GUI server then run this script followed by the GUI script.
 
+# Copy this script from GitHub raw and paste into vim 
+# (i (insert mode) and then right click if using Putty to paste
+# review and comment / uncomment to suit preferences 
+# and then Esc :wq to write and quit)
+
 # I run this as root: 
 #   $ sudo su -
-#   # vim d1setup.sh
-#   Copy from GitHub raw and paste into vim (i (insert mode) and then right click if using Putty to paste)
-#   # chmod 700 d1setup.sh
-#   # ./d1setup.sh
+#   # vim d1SetupDevServerAws.sh
+#   # chmod 700 d1SetupDevServerAws.sh
+#   # ./d1SetupDevServerAws.sh
 
 # It takes a few minutes to run...
 
@@ -78,9 +82,9 @@ g++ --version
 #apt-get -qq install -y mono-complete
 #mono
 
-#echo '---- INSTALLING GO'
-#apt-get -qq install -y golang
-#go version
+echo '---- INSTALLING GO'
+apt-get -qq install -y golang
+go version
 
 #echo '---- INSTALLING CLOJURE'
 #apt-get install -y clojure1.6
@@ -137,9 +141,9 @@ a2enmod userdir
 a2enmod cgid
 a2disconf serve-cgi-bin
 
-systemctl reload apache2
-systemctl restart apache2
-systemctl status apache2
+#systemctl reload apache2
+#systemctl restart apache2
+#systemctl status apache2
 
 echo '---- FIXING APACHE ERROR LOG SO ALL USERS CAN READ IT'
 chmod 644 /var/log/apache2/error.log
@@ -169,7 +173,7 @@ echo '--------------------------------------------------------------------------
 
 echo '---- CONFIGURE SKEL WITH TEST FILES FOR ALL USERS'
 mkdir /etc/skel/public_html
-mkdir /etc/skel/public_html/pub1000
+mkdir /etc/skel/public_html/pub3304
 mkdir /etc/skel/public_html/test
 
 echo "<html><body>Hello from HTML</body></html>" > /etc/skel/public_html/test/htmltest.html
