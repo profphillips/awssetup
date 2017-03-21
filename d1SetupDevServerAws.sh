@@ -63,7 +63,7 @@ echo 'CLASSPATH=.:/usr/share/java/mysql-connector-java.jar' >> /etc/environment
 
 echo '----PERL IS PREINSTALLED / INSTALL MYSQL DRIVER'
 perl --version
-apt-get -qq install -y libdbi-perl
+apt-get -qq install -y libdbd-mysql-perl libdbi-perl
 
 echo '---- PYTHON AND PYTHON3 ARE PREINSTALLED / INSTALL MYSQL DRIVER'
 python3 --version
