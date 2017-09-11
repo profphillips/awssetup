@@ -1,17 +1,19 @@
 #!/bin/bash
 echo '-----------------------------------------------------------------------------------------------'
 echo '---- UPDATING THE SYSTEM FOR AWS EC2 MULTIUSER STUDENT DEVELOPER UBUNTU 16.04 SERVER'
-echo '---- version 20160904 updated 20170321'
+echo '---- version 20160904 updated 20170911'
 echo '-----------------------------------------------------------------------------------------------'
 
-# This script installs various programming languages, servers, and utilities.
+# First, use AWS EC2 to create a new Ubuntu micro instance. Use PuTTY or ssh to log in as user ubuntu.
+
+# Use this script to automatically install various programming languages, servers, and utilities.
 # It creates a console only version of the server.
 # If you want an xrdp GUI server then run this script followed by the GUI script.
 
 # Copy this script from GitHub raw and paste into vim 
 # (i (insert mode) and then right click if using Putty to paste
 # review and comment / uncomment to suit preferences 
-# and then Esc :wq to write and quit)
+# and then Esc :wq to write and quit vim)
 
 # I run this as root: 
 #   $ sudo su -
@@ -25,11 +27,6 @@ echo 'Starting shell script at:'
 date
 whoami
 pwd
-
-# The following line is needed in order to do an oracle java jdk install and
-# it must go before an update command, hence this location. 
-# However, the openjdk version seems to be working ok and so I will comment this out for now.
-#add-apt-repository ppa:webupd8team/java -y
 
 echo '-----------------------------------------------------------------------------------------------'
 echo '---- UPDATING THE SERVER'
@@ -82,9 +79,9 @@ g++ --version
 #apt-get -qq install -y mono-complete
 #mono
 
-echo '---- INSTALLING GO'
-apt-get -qq install -y golang
-go version
+#echo '---- INSTALLING GO'
+#apt-get -qq install -y golang
+#go version
 
 #echo '---- INSTALLING CLOJURE'
 #apt-get install -y clojure1.6
@@ -92,7 +89,7 @@ go version
 #echo '---- INSTALLING LEGACY COMPILERS'
 
 #echo '---- INSTALLING FORTRAN COMPILER'
-#apt-get install -y gfortranq
+#apt-get install -y gfortran
 #gfortran --version
 
 #echo '---- INSTALLING COBOL COMPILER'
@@ -113,13 +110,7 @@ echo '---- INSTALLING APACHE2, MYSQL, AND PHP7 TO CREATE A LAMP SERVER'
 echo '-----------------------------------------------------------------------------------------------'
 
 apt-get -qq install -y apache2
-echo '--'
-
-echo '---- INSTALLING PHP7'
 apt-get -qq install -y php7.0 php7.0-mysql libapache2-mod-php7.0 php7.0-gd php7.0-json
-echo '--'
-
-echo '---- INSTALLING MYSQL WITH NO ROOT PASSWORD'
 DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server
 echo '--'
 
@@ -140,10 +131,7 @@ sed -i 's/<\/IfModule>/#<\/IfModule>/' /etc/apache2/mods-available/php7.0.conf
 a2enmod userdir
 a2enmod cgid
 a2disconf serve-cgi-bin
-
-#systemctl reload apache2
-#systemctl restart apache2
-#systemctl status apache2
+echo '--'
 
 echo '---- FIXING APACHE ERROR LOG SO ALL USERS CAN READ IT'
 chmod 644 /var/log/apache2/error.log
@@ -165,15 +153,12 @@ sed -i 's/create 640 root adm/create 644 root adm/' /etc/logrotate.d/apache2
 #echo '---- UPLOAD AND RUN JSP PROGRAMS AT BROWSER URL OF: ipaddress:8080'
 #sed -i 's/<\/tomcat-users>/  <user username="tomcat" password="mucis" roles="manager-gui,admin-gui"\/><\/tomcat-users>/' /etc/tomcat8/tomcat-users.xml
 
-# Todo -- add a nodejs server option
-
 echo '-----------------------------------------------------------------------------------------------'
 echo '---- CREATING FILES FOR THE USERS'
 echo '-----------------------------------------------------------------------------------------------'
 
 echo '---- CONFIGURE SKEL WITH TEST FILES FOR ALL USERS'
 mkdir /etc/skel/public_html
-mkdir /etc/skel/public_html/pub3304
 mkdir /etc/skel/public_html/test
 
 echo "<html><body>Hello from HTML</body></html>" > /etc/skel/public_html/test/htmltest.html
@@ -196,23 +181,13 @@ echo 'print "<html><body><p>Hello using Ruby!</p></body></html>"' >> /etc/skel/p
 chmod 755 /etc/skel/public_html/test/rubytest.rb
 echo '--'
 
-echo "import java.sql.Connection;" > /etc/skel/public_html/test/JDBCTest.java
-echo "import java.sql.DriverManager;" >> /etc/skel/public_html/test/JDBCTest.java
-echo "class JDBCTest {" >> /etc/skel/public_html/test/JDBCTest.java
-echo "public static void main(String[] args) {" >> /etc/skel/public_html/test/JDBCTest.java
-echo '  try(Connection con=DriverManager.getConnection("jdbc:mysql://localhost","yourdbusername","yourdbuserpassword")){' >> /etc/skel/public_html/test/JDBCTest.java
-echo '  System.out.println("Connected");' >> /etc/skel/public_html/test/JDBCTest.java
-echo '} catch (Exception e) {' >> /etc/skel/public_html/test/JDBCTest.java
-echo '  e.printStackTrace();' >> /etc/skel/public_html/test/JDBCTest.java
-echo '}}}' >> /etc/skel/public_html/test/JDBCTest.java
-
 echo '---- ADDING TEST USER jdoe'
 useradd -m jdoe -c 'Jane Doe' -s '/bin/bash'
 
 echo '---- SETTING PASSWORD FOR USER jdoe TO mucis'
 echo jdoe:mucis | sudo chpasswd
 
-echo '---- ALLOWING PASSWORD LOGINS - BE SURE TO SET AWS FIREWALL CORRECTLY TO LIMIT ACCESS BY IP'
+echo '---- ALLOWING PASSWORD LOGINS - BE SURE TO SET AWS FIREWALL TO LIMIT SSH ACCESS BY IP'
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 echo '---- CREATING A TEST DATABASE FOR jdoe'
@@ -225,7 +200,7 @@ echo '--------------------------------------------------------------------------
 echo '--- REMINDERS'
 echo '-----------------------------------------------------------------------------------------------'
 echo '---- Do not forget to set AWS firewall to limit SSH connections to just a few specific ip addresses'
-echo '---- Set firewall to allow port 80 for Apache and port 8080 for Tomcat'
+echo '---- Set firewall to allow port 80 for Apache and port 8080 if using Tomcat'
 echo '---- Admin user: ubuntu password: none, log in using AWS private key'
 echo '---- Test user: jdoe password: mucis'
 echo '---- MySQL admin user: root password: none'
