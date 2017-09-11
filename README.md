@@ -10,9 +10,9 @@ with support for a variety of programming languages and servers. This works grea
 and probably will run okay on a nano instance. It easily keeps up with 30 or more users logged in at once.
 
 Be sure to open AWS firewall ports for http, ssh, and possibly TCP on 8080 if using Tomcat for your student's 
-IP addresses. I usually open http port 80 and port 8080 to the world. Of course there are many other ways of
-controlling security. So far I prefer this method over using software like denyhosts--just let the AWS firewall 
-block out the rest of the world.
+IP addresses. I usually open http port 80 and port 8080 to the world and limit access to everything else using
+the AWS firewall. I also have used the Ubuntu ufw firewall and sometimes have used denyhosts. 
+Use whichever is best for your situation.
 
 ### GUI-Based
 After running d1 you can next run the d2 script. This will create a Ubuntu Mate server that supports xrdp.
@@ -30,8 +30,8 @@ a lot more memory.
 Be sure to open some AWS firewall ports to allow RDP from the IP addresses of your students.
 
 ## addusers.pl
-I run this Perl script as root to setup all of the student accounts. It is easy to get a list of student email addresses separated
+I run this Perl script as root to setup all of the student Ubuntu accounts when we are sharing a class server. 
+It is easy to get a list of student email addresses separated
 by commas. I feed this into the addusers.pl script and it creates Linux accounts and MySQL accounts for each student.
 Saves me a ton of work.
-
 
